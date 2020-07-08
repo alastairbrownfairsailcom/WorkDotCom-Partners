@@ -12,11 +12,13 @@ function get_user_choice_yesno() {
     done
 }
 
-while getopts ":hu:" option
+DURATION='7'
+while getopts ":hu:d:" option
 do
     case $option in
         h) usage;;
         u) scratch_org_user_alias=${OPTARG};;
+        d) DURATION=${OPTARG};;
         *) usage;;
     esac
 done
@@ -34,6 +36,9 @@ fi
 if [ -z scratch_org_user_alias ]; then
     read -p "What scratch org alias do you want to use: " scratch_org_user_alias
 fi
+
+#create scratch org
+sfdx force:org:create -f config/project-scratch-def.json  -a "$scratch_org_user_alias" -s -d $DURATION
 
 #Command Center managed package
 sfdx force:package:install -p 04t5w000005dcR9 -w 50 -u "$scratch_org_user_alias"
