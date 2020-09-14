@@ -13,12 +13,19 @@ function get_user_choice_yesno() {
 }
 
 DURATION='7'
-while getopts ":hu:d:" option
+NAMESPACE=
+update_namespace="n"
+namespaceParam=" --nonamespace"
+CONFIG_OVERRIDES=
+
+
+while getopts ":hu:d:n:" option
 do
     case $option in
         h) usage;;
         u) scratch_org_user_alias=${OPTARG};;
         d) DURATION=${OPTARG};;
+        n) NAMESPACE=${OPTARG};;
         *) usage;;
     esac
 done
@@ -37,8 +44,18 @@ if [ -z scratch_org_user_alias ]; then
     read -p "What scratch org alias do you want to use: " scratch_org_user_alias
 fi
 
+if [ -z NAMESPACE ]; then
+    echo no namespace
+else
+    echo using namespace $NAMESPACE
+    update_namespace="y"
+    namespaceParam=""
+    CONFIG_OVERRIDES="namespace="$NAMESPACE
+fi
+
+
 #create scratch org
-sfdx force:org:create -f config/project-scratch-def.json  -a "$scratch_org_user_alias" -s -d $DURATION
+sfdx force:org:create -f config/project-scratch-def.json  -a "$scratch_org_user_alias" -s -d $DURATION $namespaceParam $CONFIG_OVERRIDES
 
 #Command Center managed package
 #v3.2
