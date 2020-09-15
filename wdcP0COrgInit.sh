@@ -12,6 +12,17 @@ function get_user_choice_yesno() {
     done
 }
 
+function usage() {
+    echo "Usage: $0 [-u] [-d] [-n] [-h]"
+    echo "Options:"
+    echo "-u <alias for scratch org>"
+    echo "-d <duration of scratch org> [defaults to 7]"
+    echo "-n <namespace> [defaults to no namespace]"
+    echo "-h help"
+    exit 1
+}
+
+
 DURATION='7'
 NAMESPACE=
 update_namespace="n"
