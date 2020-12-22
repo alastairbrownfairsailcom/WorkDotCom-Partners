@@ -69,14 +69,19 @@ fi
 sfdx force:org:create -f config/project-scratch-def.json  -a "$scratch_org_user_alias" -s -d $DURATION $namespaceParam $CONFIG_OVERRIDES
 
 #Command Center managed package
-#v3.2
+#v5.3
 #Get new version from http://work.force.com/workplacecommandcenter
-sfdx force:package:install -p 04t5w000005mOu4 -w 50 -u "$scratch_org_user_alias"
+sfdx force:package:install -p 04t5w000005CqbhAAC -w 50 -u "$scratch_org_user_alias"
 
 #Command Center un-managed package
 #Get new version from http://work.force.com/employeewellnesssurveysamples
 #v3.1
 sfdx force:package:install -p 04t5w000005dhbI -w 50 -u "$scratch_org_user_alias"
+
+
+
+
+
 
 #Install un-managed packages from Appiphony for their sample Building Management App
 # https://github.com/appiphony/building-management-app

@@ -2,9 +2,9 @@ sfdx force:org:create -f config/project-scratch-def.json  -a WDCScratchOrg -s -d
 
 
 #Command Center managed package
-#v3.2
+#v5.3
 #Get new version from http://work.force.com/workplacecommandcenter
-sfdx force:package:install -p 04t5w000005mOu4 -w 50
+sfdx force:package:install -p 04t5w000005CqbhAAC -w 50
 
 #Command Center un-managed package
 #Get new version from http://work.force.com/employeewellnesssurveysamples
@@ -15,8 +15,8 @@ sfdx force:package:install -p 04t5w000005dhbI -w 50
 #Deactivating Appiphony app until error is fixed
 #Install un-managed packages from Appiphony for their sample Building Management App
 # https://github.com/appiphony/building-management-app
-sfdx force:package:install -p 04t5w000004Lpu3 -w 50
-sfdx force:package:install -p 04t4S000000hXF3 -w 50
+#sfdx force:package:install -p 04t5w000004Lpu3 -w 50
+#sfdx force:package:install -p 04t4S000000hXF3 -w 50
 
 #Perm sets have some fields from managed package so package needs to be installed first
 
@@ -55,6 +55,9 @@ sfdx force:user:permset:assign -n b2w_Operations
 #Appiphony app permission set
 #sfdx force:user:permset:assign -n  Command_Center_Appiphony_App_Admin
 
+#Cleanup old data if needed
+#sfdx force:apex:execute -f ./dx-utils/apex-scripts/deleteTestData.apex
+
 sfdx force:data:tree:import -p ./testdata/InternalOrganizationUnit-Employee-EmployeeCrisisAssessment-plan.json
 
 sfdx force:apex:execute -f ./dx-utils/apex-scripts/updateLocationVisitorAddressId.apex
@@ -71,5 +74,17 @@ sfdx force:apex:execute -f ./dx-utils/apex-scripts/demo-setup.apex
 sfdx force:user:permset:assign -n Workplace_Admin_Access_Group
 sfdx force:user:permset:assign -n Workplace_Command_Center_Access
 sfdx force:user:permset:assign -n Workplace_Admin_Objects
+
+#Shift Management Setup
+#DISABLED by default but run following 4 commands to install Shift Management and assign appropriate permission set
+#Install FSL package, get the latest version from https://fsl.secure.force.com/install
+#sfdx force:package:install -p 04t3y000001yoTW -w 50 -r
+#Install the Shift Management package, get the latest version from https://fsl.secure.force.com/work
+#sfdx force:package:install -p 04t5w000005Hv9C -w 50
+
+#Assign Shift Management Workplace Manager Tabs permission set
+#sfdx force:user:permset:assign -n WKFSL_Tabs_Workplace_Manager
+#Assign Shift Management Shift Planner Tabs permission set
+#sfdx force:user:permset:assign -n WKFSL_Tabs_Planner
 
 sfdx force:org:open 
